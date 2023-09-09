@@ -2,11 +2,11 @@
 #
 # This file contains zshrc settings.
 #
-# This code code is copyright (c) 2023-now Air Quality And Related Topics, and
-# is released under the terms of the 3-Clause BSD licence, which says:
+# Copyright (c) 2023-now Air Quality And Related Topics.
 #
 # Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions are met:
+# modification, are permitted provided that the following conditions are met
+# (BSD "3-clause" license):
 #
 #   (1) Redistributions of source code must retain the above copyright notice,
 #   this list of conditions and the following disclaimer.

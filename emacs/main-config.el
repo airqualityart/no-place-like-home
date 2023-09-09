@@ -1,10 +1,10 @@
 ;; This is my main emacs configuration file.
 ;;
-;; This code is copyright (c) 2023-now Air Quality And Related Topics, and is
-;; released under the terms of the 3-Clause BSD licence, which says:
+;; Copyright (c) 2023-now Air Quality And Related Topics.
 ;;
 ;; Redistribution and use in source and binary forms, with or without
-;; modification, are permitted provided that the following conditions are met:
+;; modification, are permitted provided that the following conditions are met
+;; (BSD "3-clause" license):
 ;;
 ;;   (1) Redistributions of source code must retain the above copyright notice,
 ;;   this list of conditions and the following disclaimer.
@@ -28,38 +28,77 @@
 ;; ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ;; General "good-behavior" configuration
+
 (setq make-backup-files nil)
 (setq-default indent-tabs-mode nil)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (setq column-number-mode t)
 (setq-default fill-column 80)
+(setq-default truncate-lines t)
 (electric-pair-mode 1)
 
 ;; Editing functions
+
 (defun kill-region-or-line ()
   (interactive)
   "Kill region if a region is selected, otherwise kill entire line."
   (if (use-region-p)
-      (kill-region (region-beginning) (region-end)) (kill-whole-line)))
+      (kill-region (region-beginning) (region-end))
+      (kill-whole-line)
+  )
+)
+
+(defun select-current-line ()
+  "Move point and mark so that current line is selected."
+  (beginning-of-line)
+  (set-mark-command nil)
+  (end-of-line)
+)
+
+(defun kill-ring-save-region-or-line ()
+  (interactive)
+  "Copy region if a region is selected, otherwise copy entire line."
+  (if (use-region-p)
+      (kill-ring-save (region-beginning) (region-end))
+      (save-mark-and-excursion (select-current-line)
+                               (kill-ring-save (region-beginning) (region-end))
+      )
+  )
+)
+
+(defun comment-or-uncomment-region-or-line ()
+  (interactive)
+  "Toggle comments on region if a region is selected, otherwise toggle comments on current line."
+  (if (use-region-p)
+      (comment-or-uncomment-region (region-beginning) (region-end))
+      (save-mark-and-excursion (select-current-line)
+                               (comment-or-uncomment-region (region-beginning) (region-end))
+      )
+  )
+)
 
 ;; Remap some keys for convenience
-;; --> moving around
+
+;; Moving around
 (global-set-key (kbd "C-j") 'backward-word)
 (global-set-key (kbd "C-l") 'forward-word)
 (global-set-key (kbd "M-p") 'backward-paragraph)
 (global-set-key (kbd "M-n") 'forward-paragraph)
 (global-set-key (kbd "M-a") 'beginning-of-buffer)
 (global-set-key (kbd "M-e") 'end-of-buffer)
-(global-set-key (kbd "C-o") 'goto-line)
-;; --> copying/cutting/pasting
-(global-set-key (kbd "C-g") 'kill-ring-save)
-(global-set-key (kbd "C-h") 'kill-region-or-line)
+
+;; Copying/cutting/pasting
+(global-set-key (kbd "C-g") 'kill-ring-save-region-or-line)
+(global-set-key (kbd "C-q") 'kill-region-or-line)
 (global-set-key (kbd "C-u") 'backward-kill-word)
 (global-set-key (kbd "C-v") 'yank)
-;; --> misc
+
+;; Misc
 (global-set-key (kbd "C-z") 'undo)
 (global-set-key (kbd "C-t") 'fill-paragraph)
-(global-set-key (kbd "C-y") 'comment-or-uncomment-region)
+(global-set-key (kbd "C-y") 'comment-or-uncomment-region-or-line)
+(global-set-key (kbd "<f12>") 'toggle-truncate-lines)
 
 ;; CC modes (C, C++, Java, etc.)
+
 (setq-default c-basic-offset 4)
