@@ -35,7 +35,7 @@
 umask 077
 
 # Basic aliases
-alias l="ls -l --color=always"
+alias l="ls -lh --color=always"
 alias e="emacs"
 alias re="%emacs"
 alias v="vim"

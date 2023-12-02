@@ -102,3 +102,8 @@
 ;; CC modes (C, C++, Java, etc.)
 
 (setq-default c-basic-offset 4)
+
+;; Web modes (HTML+, CSS, JavaScript, etc.)
+
+(add-hook 'mhtml-mode-hook (lambda () (set-fill-column 120)))
+(add-hook 'css-mode-hook (lambda () (set-fill-column 120)))
