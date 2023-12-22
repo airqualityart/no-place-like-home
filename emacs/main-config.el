@@ -27,13 +27,32 @@
 ;; OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ;; ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+;; Auto-complete and its dependencies (https://github.com/auto-complete)
+
+(add-to-list 'load-path "~/.emacs.d/packages/popup-el")
+(add-to-list 'load-path "~/.emacs.d/packages/fuzzy-el")
+(add-to-list 'load-path "~/.emacs.d/packages/auto-complete")
+(require 'auto-complete)
+(setq-default ac-sources '(ac-source-dictionary
+                           ac-source-words-in-same-mode-buffers))
+(setq ac-auto-start 3)
+(setq ac-auto-show-menu 0.4)
+(setq ac-use-menu-map t)
+(define-key ac-menu-map "C-p" 'ac-previous)
+(define-key ac-menu-map "C-n" 'ac-next)
+(set-face-background 'ac-candidate-face "color-254")
+(set-face-foreground 'ac-candidate-face "black")
+(set-face-background 'ac-selection-face "color-153")
+(set-face-foreground 'ac-selection-face "black")
+(global-auto-complete-mode t)
+
 ;; General "good-behavior" configuration
 
 (setq make-backup-files nil)
 (setq-default indent-tabs-mode nil)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (setq column-number-mode t)
-(setq-default fill-column 80)
+(setq-default fill-column 79)
 (setq-default truncate-lines t)
 (electric-pair-mode 1)
 
@@ -105,5 +124,15 @@
 
 ;; Web modes (HTML+, CSS, JavaScript, etc.)
 
-(add-hook 'mhtml-mode-hook (lambda () (set-fill-column 120)))
-(add-hook 'css-mode-hook (lambda () (set-fill-column 120)))
+(add-hook 'mhtml-mode-hook (lambda () (set-fill-column 119)))
+(add-hook 'js-mode-hook (lambda () (set-fill-column 119)
+                                   (setq ac-user-dictionary
+                                         '("console"
+                                           "display"
+                                           "forEach"
+                                           "indexOf"
+                                           "innerHTML"
+                                           "lastIndexOf"
+                                           "toLowerCase"
+                                           "toUpperCase"))))
+(add-hook 'css-mode-hook (lambda () (set-fill-column 119)))
