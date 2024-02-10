@@ -51,10 +51,11 @@
 (setq make-backup-files nil)
 (setq-default indent-tabs-mode nil)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+(delete-selection-mode 1)
+(electric-pair-mode 1)
 (setq column-number-mode t)
 (setq-default fill-column 79)
 (setq-default truncate-lines t)
-(electric-pair-mode 1)
 
 ;; Editing functions
 
@@ -101,8 +102,8 @@
 ;; Moving around
 (global-set-key (kbd "C-j") 'backward-word)
 (global-set-key (kbd "C-l") 'forward-word)
-(global-set-key (kbd "M-p") 'backward-paragraph)
-(global-set-key (kbd "M-n") 'forward-paragraph)
+(global-set-key (kbd "M-p") 'scroll-down)
+(global-set-key (kbd "M-n") 'scroll-up)
 (global-set-key (kbd "M-a") 'beginning-of-buffer)
 (global-set-key (kbd "M-e") 'end-of-buffer)
 
@@ -118,9 +119,18 @@
 (global-set-key (kbd "C-y") 'comment-or-uncomment-region-or-line)
 (global-set-key (kbd "<f12>") 'toggle-truncate-lines)
 
+;; Text mode
+
+(add-to-list 'ac-modes 'text-mode)
+
 ;; CC modes (C, C++, Java, etc.)
 
 (setq-default c-basic-offset 4)
+
+;; Python mode
+
+(add-hook 'python-mode-hook (lambda () (setq ac-user-dictionary
+                                             '("matplotlib"))))
 
 ;; Web modes (HTML+, CSS, JavaScript, etc.)
 
@@ -136,3 +146,36 @@
                                            "toLowerCase"
                                            "toUpperCase"))))
 (add-hook 'css-mode-hook (lambda () (set-fill-column 119)))
+
+;; LaTeX mode
+
+(add-hook 'latex-mode-hook (lambda () (set-fill-column 119)))
+(add-to-list 'ac-modes 'latex-mode)
+
+;; Custom major mode for git commit messages
+
+(define-derived-mode gitcommit-mode fundamental-mode
+  "git-commit" "Major mode for editing git commit messages."
+  (setq comment-start-skip "#")
+  (setq comment-start "# ")
+  (setq comment-end "")
+  (modify-syntax-entry ?# "<")
+  (modify-syntax-entry ?\n ">")
+  (font-lock-add-keywords 'gitcommit-mode '(("\\`.*$" . font-lock-type-face)))
+)
+(add-to-list 'auto-mode-alist '("COMMIT_EDITMSG" . gitcommit-mode))
+(add-hook 'gitcommit-mode-hook 'font-lock-fontify-buffer)
+(add-to-list 'ac-modes 'gitcommit-mode)
+
+;; Custom major mode for markdown files
+
+(define-derived-mode markdown-mode fundamental-mode
+  "markdown" "Major mode for editing markdown files."
+  (font-lock-add-keywords 'markdown-mode '(("^#.*$" . font-lock-keyword-face)))
+  (font-lock-add-keywords 'markdown-mode '(("^##.*$" . font-lock-type-face)))
+  (font-lock-add-keywords 'markdown-mode '(("^###.*$" . font-lock-variable-name-face)))
+)
+(add-to-list 'auto-mode-alist '("\\.[Mm][Dd]\\'" . markdown-mode))
+(add-hook 'markdown-mode-hook 'font-lock-fontify-buffer)
+(add-hook 'markdown-mode-hook (lambda () (set-fill-column 119)))
+(add-to-list 'ac-modes 'markdown-mode)
