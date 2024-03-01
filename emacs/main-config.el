@@ -2,30 +2,25 @@
 ;;
 ;; Copyright (c) 2023-now Air Quality And Related Topics.
 ;;
-;; Redistribution and use in source and binary forms, with or without
-;; modification, are permitted provided that the following conditions are met
-;; (BSD "3-clause" license):
+;; Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
+;; following conditions are met (BSD "3-clause" license):
 ;;
-;;   (1) Redistributions of source code must retain the above copyright notice,
-;;   this list of conditions and the following disclaimer.
+;;   (1) Redistributions of source code must retain the above copyright notice, this list of conditions and the
+;;   following disclaimer.
 ;;
-;;   (2) Redistributions in binary form must reproduce the above copyright
-;;   notice, this list of conditions and the following disclaimer in the
-;;   documentation and/or other materials provided with the distribution.
+;;   (2) Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the
+;;   following disclaimer in the documentation and/or other materials provided with the distribution.
 ;;
-;;   (3) The name of the author may not be used to endorse or promote products
-;;   derived from this software without specific prior written permission.
+;;   (3) The name of the author may not be used to endorse or promote products derived from this software without
+;;   specific prior written permission.
 ;;
-;; THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED
-;; WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
-;; MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
-;; EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-;; SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-;; PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
-;; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
-;; WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
-;; OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
-;; ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+;; THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+;; TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
+;; THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+;; BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+;; INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+;; (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+;; POSSIBILITY OF SUCH DAMAGE.
 
 ;; Auto-complete and its dependencies (https://github.com/auto-complete)
 
@@ -33,8 +28,7 @@
 (add-to-list 'load-path "~/.emacs.d/packages/fuzzy-el")
 (add-to-list 'load-path "~/.emacs.d/packages/auto-complete")
 (require 'auto-complete)
-(setq-default ac-sources '(ac-source-dictionary
-                           ac-source-words-in-same-mode-buffers))
+(setq-default ac-sources '(ac-source-dictionary ac-source-words-in-same-mode-buffers))
 (setq ac-auto-start 3)
 (setq ac-auto-show-menu 0.4)
 (setq ac-use-menu-map t)
@@ -55,6 +49,7 @@
 (electric-pair-mode 1)
 (setq column-number-mode t)
 (setq-default fill-column 79)
+(if (version< emacs-version "27") () (global-display-fill-column-indicator-mode 1))
 (setq-default truncate-lines t)
 
 ;; Editing functions
@@ -119,6 +114,14 @@
 (global-set-key (kbd "C-y") 'comment-or-uncomment-region-or-line)
 (global-set-key (kbd "<f12>") 'toggle-truncate-lines)
 
+;; Minibuffer mode
+
+(add-hook 'minibuffer-setup-hook (lambda () (local-set-key "\C-j" 'backward-word)))
+
+;; Emacs-lisp mode
+
+(add-hook 'emacs-lisp-mode-hook (lambda () (set-fill-column 119)))
+
 ;; Text mode
 
 (add-to-list 'ac-modes 'text-mode)
@@ -131,6 +134,10 @@
 
 (add-hook 'python-mode-hook (lambda () (setq ac-user-dictionary
                                              '("matplotlib"))))
+
+;; Fortran mode(s)
+
+(add-hook 'f90-mode-hook (lambda () (define-key f90-mode-map "\C-j" 'backward-word)))
 
 ;; Web modes (HTML+, CSS, JavaScript, etc.)
 
@@ -151,6 +158,11 @@
 
 (add-hook 'latex-mode-hook (lambda () (set-fill-column 119)))
 (add-to-list 'ac-modes 'latex-mode)
+
+;; Org mode
+
+(add-hook 'org-mode-hook (lambda () (define-key org-mode-map "\C-j" 'backward-word)))
+(add-to-list 'ac-modes 'org-mode)
 
 ;; Custom major mode for git commit messages
 
