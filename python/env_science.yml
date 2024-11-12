@@ -1,0 +1,14 @@
+name: science
+channels:
+ - conda-forge
+dependencies:
+ - python >=3.12,<3.13
+ - numpy
+ - scipy
+ - xarray
+ - pandas
+ - netcdf4
+ - shapely
+ - pyproj
+ - matplotlib
+ - cartopy
