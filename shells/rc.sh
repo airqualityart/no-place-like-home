@@ -43,6 +43,7 @@ alias v="vim"
 alias gst="git status"
 alias gbr="git branch"
 alias gco="git checkout"
+alias grm="git remote"
 
 if [ "$(uname -s)" = "Darwin" ]; then
    alias man="LANG='en_US.UTF-8' man"
