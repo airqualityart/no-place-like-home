@@ -153,6 +153,7 @@
                                            "toLowerCase"
                                            "toUpperCase"))))
 (add-hook 'css-mode-hook (lambda () (set-fill-column 119)))
+(add-to-list 'ac-modes 'mhtml-mode)
 
 ;; LaTeX mode
 
