@@ -137,6 +137,12 @@
 
 ;; Fortran mode(s)
 
+(setq f90-program-indent 2)
+(setq f90-continuation-indent 2)
+(setq f90-type-indent 2)
+(setq f90-structure-indent 4)
+(setq f90-if-indent 4)
+(setq f90-do-indent 4)
 (add-hook 'f90-mode-hook (lambda () (define-key f90-mode-map "\C-j" 'backward-word)))
 
 ;; Web modes (HTML+, CSS, JavaScript, etc.)
