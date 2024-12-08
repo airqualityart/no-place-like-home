@@ -36,7 +36,6 @@
 umask 077
 
 # Basic aliases
-alias l="ls -lh --color=always"
 alias e="emacs"
 alias re="%emacs"
 alias v="vim"
@@ -45,8 +44,11 @@ alias gbr="git branch"
 alias gco="git checkout"
 alias grm="git remote"
 
-if [ "$(uname -s)" = "Darwin" ]; then
-   alias man="LANG='en_US.UTF-8' man"
+if [ "$(uname -o)" = "Darwin" ]; then
+    alias man="LANG='en_US.UTF-8' man"
+    alias l="ls -lhG"
+elif [ "$(uname -o)" = "GNU/Linux" ]; then
+    alias l="ls -lh --group-directories-first --color=auto"
 fi
 
 # Homebrew configuration
