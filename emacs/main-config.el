@@ -186,6 +186,20 @@
 (add-hook 'gitcommit-mode-hook 'font-lock-fontify-buffer)
 (add-to-list 'ac-modes 'gitcommit-mode)
 
+;; Custom major mode for gitignore files
+
+(define-derived-mode gitignore-mode fundamental-mode
+  "gitignore" "Major mode for editing gitignore files."
+  (setq comment-start-skip "#")
+  (setq comment-start "# ")
+  (setq comment-end "")
+  (modify-syntax-entry ?# "<")
+  (modify-syntax-entry ?\n ">")
+)
+(add-to-list 'auto-mode-alist '(".gitignore" . gitignore-mode))
+(add-hook 'gitignore-mode-hook 'font-lock-fontify-buffer)
+(add-to-list 'ac-modes 'gitignore-mode)
+
 ;; Custom major mode for markdown files
 
 (define-derived-mode markdown-mode fundamental-mode
