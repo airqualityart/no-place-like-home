@@ -1,0 +1,22 @@
+name: everything
+channels:
+ - conda-forge
+dependencies:
+ - python >=3.13,<3.14
+ - numpy
+ - scipy
+ - xarray
+ - pandas
+ - netcdf4
+ - shapely
+ - pyproj
+ - matplotlib
+ - cartopy
+ - pycodestyle
+ - pydocstyle
+ - pylint
+ - black
+ - pyflakes
+ - ruff
+ - mccabe
+ - pytest
