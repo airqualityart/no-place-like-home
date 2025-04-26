@@ -15,6 +15,7 @@ alias gst="git status"
 alias gbr="git branch"
 alias gco="git checkout"
 alias grm="git remote"
+alias eee="micromamba activate everything"
 
 if [ "$(uname -o)" = "Darwin" ]; then
     alias man="LANG='en_US.UTF-8' man"
