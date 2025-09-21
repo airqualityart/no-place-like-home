@@ -8,7 +8,7 @@
 umask 077
 
 # Basic aliases
-alias e="emacs"
+alias e="emacs -nw"
 alias re="%emacs"
 alias v="vim"
 alias gst="git status"
